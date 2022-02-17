@@ -1,0 +1,4 @@
+print('Glo', end=' ')
+print('Acad', sep='', end='')
+print('emy')
+print('Glo Academy')

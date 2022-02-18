@@ -1,3 +1,17 @@
+#новое решение
+
+print('Введите число:')
+number = int(input())
+
+
+n_hour = number // 3600
+n_min = (number % 3600) // 60
+n_sec = number % 60
+
+print(number, 'секунд - это', n_hour, 'час', n_min, 'мин', n_sec, 'сек')
+
+#старое решение
+
 from time import *
 
 print('Введите число:')

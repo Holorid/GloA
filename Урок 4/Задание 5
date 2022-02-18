@@ -1,0 +1,9 @@
+from time import *
+
+print('Введите число:')
+number = int(input())
+
+com_time = gmtime(number)
+total_time = strftime('%H час %M минут %S сек', com_time)
+
+print(number, 'секунд - это', total_time)

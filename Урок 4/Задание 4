@@ -5,8 +5,8 @@ cost_k = int(input())
 print('Введите сколько мячей будете покупать:')
 count = int(input())
 
-total_cost_r = cost_r * 2
-total_cost_k = cost_k * 2
+total_cost_r = cost_r * count
+total_cost_k = cost_k * count
 total_cost_r = total_cost_r + total_cost_k // 100
 total_cost_k = total_cost_k % 100
 

@@ -1,0 +1,14 @@
+print('Введите стоимость мяча(рубли):')
+cost_r = int(input())
+print('Введите стоимость мяча(копейки):')
+cost_k = int(input())
+print('Введите сколько мячей будете покупать:')
+count = int(input())
+
+total_cost_r = cost_r * 2
+total_cost_k = cost_k * 2
+if total_cost_k >= 100:
+ total_cost_r = total_cost_r + total_cost_k // 100
+ total_cost_k = total_cost_k % 100
+
+print('За', count, 'мяча нужно заплатить', total_cost_r, 'рублей и', total_cost_k, 'копеек')

@@ -1,0 +1,28 @@
+print('Введите число:')
+number = int(input())
+
+if number >= 0 and number <= 36:
+    if number == 0:
+        print('Зелёный')
+    if number <= 10 and number != 0:
+        if number % 2 == 0:
+            print('Черный')
+        else:
+            print('Красный')
+    if number >= 11 and number <= 18:
+        if number % 2 == 0:
+            print('Красный')
+        else:
+            print('Черный')
+    if number >= 19 and number <= 28:
+        if number % 2 == 0:
+            print('Черный')
+        else:
+            print('Красный')
+    if number >= 29 and number <= 38:
+        if number % 2 == 0:
+            print('Красный')
+        else:
+            print('Черный')
+else:
+    print('Ошибка ввода')

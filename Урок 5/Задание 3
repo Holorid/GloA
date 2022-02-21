@@ -1,0 +1,19 @@
+print('Введите номер билета:')
+number = int(input())
+
+number_a = number // 1000
+
+num_a1 = number_a // 100
+num_b1 = number_a % 100 // 10
+num_c1 = number_a % 10
+
+number_b = number % 1000
+
+num_a2 = number_b // 100
+num_b2 = number_b % 100 // 10
+num_c2 = number_b % 10
+
+if (num_a1 + num_b1 + num_c1) == (num_a2 + num_b2 + num_c2):
+    print('Билет', number, 'счастливый')
+else:
+    print('Билет', number, 'Несчастливый')

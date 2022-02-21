@@ -1,0 +1,13 @@
+print('Введите вес арбуза:')
+weight = int(input())
+
+if(weight != 0):
+
+    print('weight', weight % 2)
+
+    if weight % 2 == 0:
+        print('YES')
+    else:
+        print('NO')
+else:
+    print('неверное значение')

@@ -1,0 +1,7 @@
+print('Введите название команды:')
+text = input()
+
+if text == '':
+    print('Нет данных')
+else:
+    print(text * 5)

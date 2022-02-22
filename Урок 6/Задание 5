@@ -1,0 +1,10 @@
+print('Введите e-mail:')
+text = input()
+
+if text == '':
+    print('Нет данных')
+else:
+    if '@' in text and '.' in text:
+        print('Корректный')
+    else:
+        print('Некорректный')

@@ -1,0 +1,14 @@
+a = int(input())
+if a >= 2:
+    maximum = a
+    minimum = a
+    for i in range(0, a):
+        num = int(input())
+        if num > maximum:
+            maximum = num
+        if num < minimum:
+            minimum = num
+    print('maximum', maximum)
+    print('minimum', minimum)
+else:
+    print('Ошибка ввода')

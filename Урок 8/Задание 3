@@ -1,0 +1,12 @@
+num = int(input())
+sum_num = 0
+cal_num = num
+
+while cal_num != 0:
+    l_num = cal_num % 10
+    sum_num += l_num
+    cal_num = cal_num // 10
+if num % sum_num == 0:
+    print('YES')
+else:
+    print('NO')

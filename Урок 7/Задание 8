@@ -1,8 +1,9 @@
 a = int(input())
+
 if a >= 2:
-    maximum = a
-    minimum = a
-    for i in range(0, a):
+    maximum = int(input())
+    minimum = int(input())
+    for i in range(0, a - 2):
         num = int(input())
         if num > maximum:
             maximum = num

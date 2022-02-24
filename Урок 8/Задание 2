@@ -1,0 +1,9 @@
+num = int(input())
+total = 0
+
+while num != 0:
+    l_num = num % 10
+    if l_num == 5:
+        total += 1
+    num = num // 10
+print('total:', total)

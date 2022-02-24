@@ -1,0 +1,7 @@
+a = int(input())
+total = 0
+
+while a // 2 and a % 2 == 0:
+    a = a // 2
+    total += 1
+print('total:', total)

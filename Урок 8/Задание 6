@@ -1,0 +1,9 @@
+num = int(input())
+sum_num = 0
+m_num = 0
+
+while num != 0:
+    sum_num += num
+    m_num += 1
+    num = int(input())
+print('Среднее:', sum_num // m_num)

@@ -1,0 +1,8 @@
+num = int(input())
+i = 2
+while i * i <= num and num % i != 0:
+    i += 1
+if i * i > num:
+    print('YES')
+else:
+    print('NO')

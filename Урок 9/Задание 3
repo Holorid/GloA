@@ -1,0 +1,9 @@
+num = int(input())
+
+while True:
+    if '1' in str(num):
+        print('YES')
+        break
+    else:
+        print('NO')
+        break

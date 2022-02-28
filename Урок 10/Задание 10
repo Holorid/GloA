@@ -1,0 +1,7 @@
+a = input()
+b = 0
+a = a.strip()
+for i in a:
+    if i.find(' ') != -1:
+        b += 1
+print(b + 1)

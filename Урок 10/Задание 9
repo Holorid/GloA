@@ -1,0 +1,9 @@
+a = input()
+total_num = len(a)
+
+print(total_num)
+print(a[total_num - 1])
+print(a[0:2])
+print(a[total_num - 2:total_num])
+print(a[::-1])
+print(a[1:total_num - 1])

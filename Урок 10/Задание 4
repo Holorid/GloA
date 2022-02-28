@@ -1,0 +1,8 @@
+i = input()
+
+if ord(i) in range(ord('A'), ord('Z') + 1) or ord(i) in range(ord('a'), ord('z') + 1):
+    if i.isupper() == True:
+        i = i.lower()
+    else:
+        i = i.upper()
+print(i)

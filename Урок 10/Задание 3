@@ -1,0 +1,6 @@
+i = input()
+
+if i.isupper() == True:
+    print('YES')
+else:
+    print('NO')

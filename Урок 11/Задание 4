@@ -1,0 +1,9 @@
+a = input()
+b = a.split()
+total = 0
+
+for i in range(len(b) - 1):
+    d = b[i + 1:]
+    f = d.count(b[i])
+    total += f
+print(total)

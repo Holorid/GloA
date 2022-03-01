@@ -1,0 +1,11 @@
+a = int(input())
+b = []
+for i in range(a):
+    c = input()
+    b.append(c)
+
+d = input().lower()
+
+for n in b:
+    if d in n.lower():
+        print(n)

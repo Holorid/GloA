@@ -1,0 +1,11 @@
+a = input()
+b = a.split()
+num = ''
+
+for i in range(len(b) - 1):
+    d = b[i + 1:]
+    f = d.count(b[i])
+    if f == 0:
+        num += b[i] + ' '
+
+print(num.strip())

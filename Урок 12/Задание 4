@@ -1,0 +1,15 @@
+def shipping_cost(day):
+    item_1 = 100
+    item_2 = 50
+    total = item_1
+    if day == 0:
+        total = 0
+        return total
+    for i in range(1, day):
+        if day > 1:
+            total += item_2
+    return total
+            
+
+num = int(input())
+print(shipping_cost(num))

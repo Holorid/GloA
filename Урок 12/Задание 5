@@ -1,0 +1,8 @@
+def cal_num(l):
+    if int(l[0]) * int(l[1]) == int(l[2]) % 100:
+        return True
+    else:
+        return False
+            
+num = input().split('.')
+print(cal_num(num))

@@ -1,0 +1,16 @@
+#Первый код
+l_num = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+num = int(input())
+
+print(l_num[num - 1])
+
+#Второй код
+def month_day(num):
+    num -= 1
+    for i in range(len(l_num)):
+        if i == num:
+            print(l_num[i])
+            
+l_num = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+num = int(input())
+month_day(num)

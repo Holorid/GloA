@@ -1,0 +1,14 @@
+def cal_list(list_one, list_two):
+    return max(list_one) * max(list_two)
+
+def conv_list(l):
+    l_mod = []
+    for e in l:
+        l_mod.append(int(e))
+        
+    return l_mod
+
+list_1 = input().split()
+list_2 = input().split()
+
+print(cal_list(conv_list(list_1), conv_list(list_2)))

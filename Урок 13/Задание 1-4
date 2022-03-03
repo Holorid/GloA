@@ -1,0 +1,70 @@
+# Наиболее эфективный способ: Сначало вводить среднее число из диапазона.
+# Потом вводим опять среднее число из уже полученного диапазона и при каждом вводе прибавляем или отнимаем 10 пока не найдем последний диапазон.
+# После этого опять берем срденее число и двигаемся в нужном направлении.
+
+import random
+
+def is_valid(user_input, num):
+    if user_input.isdigit():
+        user_number = int(user_input)
+        if user_number >= 1 and user_number <= num:
+            return True
+        else:
+            return False
+    else:
+        return False
+
+
+def start_game():
+    att = 0
+    r_num = 0
+    print('Добро пожаловать в игру "Угадай число"')
+    while True:
+        print('Укажите границу для сучайного числа')
+        r_num_input = input()
+
+        if r_num_input.isdigit():
+            r_num = int(r_num_input)
+            break
+        else:
+            continue
+
+    secret_number = random.randint(1, r_num)
+
+    while True:
+        print(f'Введите число от 1 до {r_num}')
+        user_input = input()
+
+        if not is_valid(user_input, r_num):
+            continue
+
+        user_number = int(user_input)
+
+        if secret_number > user_number:
+            print('Загаданное число больше, чем введеннное')
+            att += 1
+        elif secret_number < user_number:
+            print('Загаданное число меньше, чем введенное')
+            att += 1
+        else:
+            print(f'Ура! Вы угадали загаданное число. Количество попыток: {att}')
+            print('Оптимальное количество попыток: 5-6')
+            print('Начать игру снова?(1/0)')
+            game = 0
+            while True:
+                game_in = input()
+                if game_in.isdigit():
+                    game = int(game_in)
+                    break
+                else:
+                    print('Ошибка. Введите 1 - для прожолжение или 0 - для выходы')
+                    continue
+
+            if game == 1:
+                start_game()
+                break
+            else:
+                break
+
+start_game()
+print('Спасибо за игру. Ждем вас еще!')

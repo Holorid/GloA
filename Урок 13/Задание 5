@@ -1,0 +1,66 @@
+# Вы загадываете чисо
+# Дальше программа выводит вам своё число и вы должны ответить на вопрос программы словами: yes/no
+# Так повторяется, пока программа не выдаст правельный ответ
+
+import random
+
+def is_valid(user_input):
+    if user_input.isdigit():
+        user_number = int(user_input)
+        if user_number >= 1 and user_number <= 100:
+            return True
+        else:
+            return False
+    else:
+        return False
+
+print('Добро пожаловать в игру "Угадай число"')
+sec_num = 0
+
+while True:
+    print('Укажите число от 1 до 100:')
+    num_input = input()
+
+    if not is_valid(num_input):
+            continue
+
+    sec_num = int(num_input)
+    break
+
+num_prog = 0
+old_num_prog = 0
+more_num = 100
+less_num = 1
+
+while True:
+    old_num_prog = num_prog
+    num_prog = random.randint(less_num, more_num)
+    if num_prog == old_num_prog:
+        continue
+    if sec_num == num_prog:
+        print(f'Загаданное число: {sec_num}')
+        break
+    print(f'Загаданное число больше чем {num_prog}?')
+
+    while True:
+        cl_input = input().upper()
+        
+        if cl_input != 'YES' and cl_input != 'NO':
+            print('Напишите YES/NO')
+            continue
+
+        if sec_num > num_prog:
+            if cl_input == 'YES':
+                less_num = num_prog
+                break
+            elif cl_input == 'NO':
+                print('Не жульничай')
+                continue
+
+        if sec_num < num_prog:
+            if cl_input == 'NO':
+                more_num = num_prog
+                break
+            elif cl_input == 'YES':
+                print('Не жульничай')
+                continue

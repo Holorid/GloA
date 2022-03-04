@@ -1,0 +1,93 @@
+import random
+
+def ask_quest(quest):
+    print(quest, 'Напишите Да или Нет')
+    while True:
+        answer = input().lower()
+        if answer == 'да':
+            return True
+        elif answer == 'нет':
+            return False
+        else:
+            print('Напишите Да или Нет')
+            continue
+
+def gen_pass(lenght, chars):
+    password = ''
+    for i in range(lenght):
+        random_index = random.randint(0, len(chars) - 1)
+        password += chars[random_index]
+
+    return password
+
+def num_valid():
+    count_pass = 0
+    while True:
+        pass_input = input()
+        if pass_input.isdigit():
+            count_pass = int(pass_input)
+            break
+        else:
+            print('Напишите число')
+            continue
+        
+    return count_pass
+
+print('Я генератор паролей. \nЯ задам пару вопросов, на основе которых сгенерирую пароль')
+
+while True:
+    print('Укажите количество паролей')
+
+    count_pass = num_valid()
+
+    print('Введите длину пароля')
+    lenght = num_valid()
+
+    digits_enabled = ask_quest('Исп. цифры?')
+
+    latin_lcase_enabled = ask_quest('Исп. строчные латинские буква?')
+
+    latin_ucase_enabled = ask_quest('Исп. заглавные латинские буква?')
+
+    rus_lcase_enabled = ask_quest('Исп. строчные русские буква?')
+
+    rus_ucase_enabled = ask_quest('Исп. заглавные русские буква?')
+
+    punct_enabled = ask_quest('Исп. знаки пунктуации?')
+
+    enabled_chars = ''
+    digits = '0123456789'
+    latin_lcase_letters = 'abcdefghijklmnopqrstuvwxyz'
+    latin_ucase_letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    rus_lcase_letters = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
+    rus_ucase_letters = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
+    punctuation = "!#$%&*+-=?@^_'"
+
+    if digits_enabled:
+        enabled_chars += digits
+
+    if latin_lcase_enabled:
+        enabled_chars += latin_lcase_letters
+
+    if latin_ucase_enabled:
+        enabled_chars += latin_ucase_letters
+
+    if rus_lcase_enabled:
+        enabled_chars += rus_lcase_letters
+
+    if rus_ucase_enabled:
+        enabled_chars += rus_ucase_letters
+
+    if punct_enabled:
+        enabled_chars += punctuation
+
+    for i in range(count_pass):
+        password = gen_pass(lenght, enabled_chars)
+        print(password)
+
+    reply = ask_quest('Сгенерировать новый пароль?')
+
+    if reply:
+        continue
+    else:
+        break

@@ -1,3 +1,5 @@
+import random
+
 def update_user_word(secret_word, user_word, char):
     new_user_word = ''
     for i in range(len(secret_word)):
@@ -32,14 +34,29 @@ def output_char():
 
     return char
 
+def sec_word():
+    global secret_word, user_word
+    case_word = random.randint(0, 3)
+    if case_word == 0:
+        print('Так назвают некоторые высшие учебные заведения 8 букв')
+        secret_word = 'академия'
+        user_word = '********'
+    elif case_word == 1:
+        print('Так назвают порядок действий 8 букв')
+        secret_word = 'алгоритм'
+        user_word = '********'
+    elif case_word == 2:
+        print('Алгоритм имеющий строгий порядок действий 8 букв')
+        secret_word = 'линейный'
+        user_word = '********'
 
+secret_word = ''
+user_word = ''
 
 while True:
     trial = 0
     input_char = ''
-    print('Так назвают некоторые высшие учебные заведения 8 букв')
-    secret_word = 'академия'
-    user_word = '********'
+    sec_word()
     print(user_word)
 
     while user_word != secret_word:

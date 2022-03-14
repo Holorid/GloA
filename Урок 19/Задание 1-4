@@ -1,0 +1,123 @@
+import random
+
+questions = [
+    'Сколько будет два плюс два умноженное на два?',
+    'Бревно нужно распелить на 10 частей, сколько надо сделать распилов?',
+    'На двух руках 10 пальцев. Сколько пальцев на 5 руках?',
+    'Укол делают каждые полчаса, сколько нужно минут для трех уколов?',
+    'Пять свечей горело, две потухли. Сколько свечей осталось?'
+]
+
+answer = [6, 9, 25, 60, 2]
+
+result = ['Идиот', 'Кретин', 'Дурак', 'Нормальный', 'Талант', 'Гений']
+
+def output_answer():
+    answer = ''
+    while True:
+        answer = input().lower()
+        if answer != 'да' and answer != 'нет':
+            print('Введите: да или нет')
+            continue
+        else:
+            break
+
+    return answer
+
+def save(name, count, res):
+    save_result = open('my-test.txt', 'a')
+
+    string = f'{name}, {count}, {res} \n'
+    save_result.write(string)
+
+    save_result.close()
+    
+def read_file():
+    save_result = open('my-test.txt', 'r')
+
+    string = save_result.read()
+    print(string)
+    
+    save_result.close()    
+
+def result_game(right_answers):
+    result_answ = ''
+
+    r_percent = (right_answers * 100) // len(questions)
+
+    if r_percent == 0:
+        result_answ = result[0]
+
+    if r_percent <= 20 and r_percent != 0:
+        result_answ = result[1]
+
+    if r_percent <= 40 and r_percent > 20:
+        result_answ = result[2]
+
+    if r_percent <= 60 and r_percent > 40:
+        result_answ = result[3]
+    
+    if r_percent <= 80 and r_percent > 60:
+        result_answ = result[4]
+
+    if r_percent <= 100 and r_percent > 80:
+        result_answ = result[5]
+
+    return result_answ
+    #print(f'{name}, вы {result_answ}')
+
+def random_list(list_q):
+    while len(list_q) != len(questions):
+        q = random.randint(0, len(questions) - 1)
+        if list_q.count(q) == 0:
+            list_q.append(q)
+        else:
+            continue
+    return list_q
+
+def valid_num():
+    while True:
+        num = input()
+        if num.isdigit():
+            return int(num)
+        else:
+            print('Напишите число')
+            continue
+
+def start_game():
+    while True:
+        print('Введите своё имя:')
+        user_name = input()
+        
+        count_right_answers = 0
+
+        list_questions = []
+
+        random_list(list_questions)
+
+        for i in range(len(questions)):
+
+            print(f'№{i+1}:{questions[list_questions[i]]}')
+
+            user_answer = valid_num()
+
+            right_answer = answer[list_questions[i]]
+
+            if user_answer == right_answer:
+                count_right_answers += 1
+
+        save(user_name, count_right_answers, result_game(count_right_answers))
+        print(f'Количество правельных ответов:{count_right_answers}')
+        res_output = result_game(count_right_answers)
+        print(f'{user_name}, вы {res_output}')
+        read_file()
+
+        print('Начать игру снова?(Да/Нет)')
+        user_input = output_answer()
+        
+        if user_input == 'да':
+            continue
+        elif user_input == 'нет':
+            break
+
+start_game()

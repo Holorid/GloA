@@ -1,0 +1,215 @@
+import random
+import os
+
+class FileProvider:
+    def get(self, path):
+        file = open(path, 'r')
+        data = file.read()
+        file.close()
+        return data
+
+    def append(self, path, data):
+        file = open(path, 'a')
+        data = file.write(data)
+        file.close()
+        
+    def exists(self, path):
+        return os.path.exists(path)
+
+class Question:
+    def __init__(self, text, answer):
+        self.text = text
+        self.answer = answer
+
+class QuestionsStorage:
+    def add(self):
+        file_name = 'my-test-questions.txt'
+
+        file_provider = FileProvider()
+        while True:
+            print(f'Введите вопрос')
+            text = input()
+            print(f'Введите ответ')
+            answer = input()
+            file_provider.append(file_name, f'{text}#{answer}\n')
+            
+            print('Добавить ещё вопрос?(да/нет)')
+            user_answer = valid_input(2)
+            
+            if user_answer == 'да':
+                continue
+            elif user_answer == 'нет':
+                break       
+
+    def get_all(self):
+        file_name = 'my-test-questions.txt'
+        while True:
+            if FileProvider().exists(file_name):
+                file_provider = FileProvider()
+                data = file_provider.get(file_name).strip('\n')
+                if data == '':
+                    QuestionsStorage().add()
+                    continue
+                data = data.split('\n')
+                text = []
+        
+                for line in data:
+                    values = line.split('#')
+                    quest = Question(values[0], values[1])
+                    text.append(quest)
+                    
+                return text
+            else:
+                print('Файл my-test-questions.txt не найден')
+
+class User:
+    def __init__(self, name, count_right_answers=0, result='Неизв.'):
+        self.name = name
+        self.count_right_answers = count_right_answers
+        self.result = result
+
+    def accept_right_answer(self):
+        self.count_right_answers += 1
+
+    def set_result(self, result):
+        self.result = result
+
+class UserResultStorage:
+    def save(self, user):
+        file_name = 'my-test.txt'
+        
+        file_provider = FileProvider()
+        string = f'{user.name}#{user.count_right_answers}#{user.result}\n'
+        file_provider.append(file_name, string)
+
+    def get_all(self):
+        file_name = 'my-test.txt'
+        file_provider = FileProvider()
+        data = file_provider.get(file_name).strip('\n')
+        data = data.split('\n')
+        users = []
+
+        for line in data:
+            values = line.split('#')
+            user = User(values[0], values[1], values[2])
+            users.append(user)
+            
+        return users
+
+
+result = ['Идиот', 'Кретин', 'Дурак', 'Нормальный', 'Талант', 'Гений']
+
+def show_file():
+    name = 'Имя'
+    count_right_answers = 'Кол. ответов'
+    result = 'Результат'
+    print(f'{name:15}{count_right_answers:30}{result:15}')
+
+    users = userResultStorage.get_all()
+
+    for user in users:
+        print(f'{user.name:15}{user.count_right_answers:30}{user.result:15}')
+
+def result_game(right_answers, questions):
+    result_answ = ''
+
+    r_percent = (right_answers * 100) // len(questions)
+
+    if r_percent == 0:
+        result_answ = result[0]
+
+    if r_percent <= 20 and r_percent != 0:
+        result_answ = result[1]
+
+    if r_percent <= 40 and r_percent > 20:
+        result_answ = result[2]
+
+    if r_percent <= 60 and r_percent > 40:
+        result_answ = result[3]
+
+    if r_percent <= 80 and r_percent > 60:
+        result_answ = result[4]
+
+    if r_percent <= 100 and r_percent > 80:
+        result_answ = result[5]
+
+    return result_answ
+
+
+def random_list(list_q, questions):
+    while len(list_q) != len(questions):
+        q = random.randint(0, len(questions) - 1)
+        if list_q.count(q) == 0:
+            list_q.append(q)
+        else:
+            continue
+    return list_q
+
+
+def valid_input(mode):
+    while True:
+        user_in = input()
+        if mode == 1:
+            if user_in.isdigit():
+                return int(user_in)
+            else:
+                print('Напишите число')
+                continue
+        else:
+            if user_in != 'да' and user_in != 'нет':
+                print('Введите: да или нет')
+                continue
+            else:
+                return user_in
+
+
+userResultStorage = UserResultStorage()
+qustionsStorage = QuestionsStorage()
+
+def start_game():
+    while True:
+        print('Введите своё имя:')
+        user_name = input()
+        user = User(user_name)
+
+        questions = qustionsStorage.get_all()
+        if len(questions) < 5:
+            print(f'Для запуска приложения добавьте ещё {len(questions) - (len(questions) - 1)} вопрос')
+            QuestionsStorage().add()
+        
+        list_questions = []
+
+        random_list(list_questions, questions)
+
+        for i in range(len(questions)):
+            print(f'№{i+1}:{questions[list_questions[i]].text}')
+            user_answer = valid_input(1)
+            right_answer = int(questions[list_questions[i]].answer)
+            if user_answer == right_answer:
+                print('Верно')
+                user.accept_right_answer()
+
+        print(f'Количество правельных ответов:{user.count_right_answers}')
+        res_output = result_game(user.count_right_answers, questions)
+        user.set_result(res_output)
+        print(f'{user_name}, вы {res_output}')
+
+        userResultStorage.save(user)
+
+        show_file()
+
+        print('Добавить новые вопросы?(Да\Нет)')
+        user_input = valid_input(2)
+
+        if user_input == 'да':
+            QuestionsStorage().add()      
+
+        print('Начать игру снова?(Да/Нет)')
+        user_input = valid_input(2)
+
+        if user_input == 'да':
+            continue
+        elif user_input == 'нет':
+            break
+
+start_game()

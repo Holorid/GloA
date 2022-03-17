@@ -8,8 +8,8 @@ class FileProvider:
         file.close()
         return data
 
-    def append(self, path, data):
-        file = open(path, 'a')
+    def append(self, path, data, mode='a'):
+        file = open(path, mode)
         data = file.write(data)
         file.close()
 
@@ -23,24 +23,25 @@ class Question:
 
 
 class QuestionsStorage:
-    def add(self):
+    def delet(self, text):
+        quest = qustionsStorage.get_all()
+
+        for i in range(len(quest) - 1):
+            if text == quest[i].text:
+                quest.pop(i)
+
+        file_name = 'my-test-questions.txt'
+        file_provider = FileProvider()
+        file_provider.append(file_name, '', 'w')
+        
+        for i in range(len(quest) - 1):
+            qustionsStorage.add(quest[i].text, quest[i].answer)
+
+    def add(self, text, answer):
         file_name = 'my-test-questions.txt'
 
         file_provider = FileProvider()
-        while True:
-            print(f'Введите вопрос')
-            text = input()
-            print(f'Введите ответ')
-            answer = input()
-            file_provider.append(file_name, f'{text}#{answer}\n')
-
-            print('Добавить ещё вопрос?(да/нет)')
-            user_answer = valid_input(2)
-
-            if user_answer == 'да':
-                continue
-            elif user_answer == 'нет':
-                break
+        file_provider.append(file_name, f'{text}#{answer}\n')
 
     def get_all(self):
         file_name = 'my-test-questions.txt'
@@ -55,6 +56,37 @@ class QuestionsStorage:
             text.append(quest)
 
         return text
+
+def del_qustion():
+    while True:
+        print(f'Введите вопрос')
+        text = valid_input(3)
+        
+        qustionsStorage.delet(text)
+
+        print('Удалить ещё вопрос?(да/нет)')
+        user_answer = valid_input(2)
+
+        if user_answer == 'да':
+            continue
+        elif user_answer == 'нет':
+            break         
+
+def add_qustion():
+    while True:
+        print(f'Введите вопрос')
+        text = valid_input(3)
+        print(f'Введите ответ')
+        answer = valid_input(1)
+        qustionsStorage.add(text, answer)
+
+        print('Добавить ещё вопрос?(да/нет)')
+        user_answer = valid_input(2)
+
+        if user_answer == 'да':
+            continue
+        elif user_answer == 'нет':
+            break    
 
 class User:
     def __init__(self, name, count_right_answers=0, result='Неизв.'):
@@ -141,20 +173,31 @@ def random_list(list_q, questions):
 
 
 def valid_input(mode):
+    # mode 1 - проверка на числа
+    # mode 2 - проверка на да\нет
+    # mode 3 - проверка на пустую строку
     while True:
-        user_in = input()
         if mode == 1:
+            user_in = input()
             if user_in.isdigit():
                 return int(user_in)
             else:
                 print('Напишите число')
                 continue
-        else:
+        elif mode == 2:
+            user_in = input().lower()
             if user_in != 'да' and user_in != 'нет':
                 print('Введите: да или нет')
                 continue
             else:
                 return user_in
+        else:
+            user_in = input()
+            if user_in == '' and user_in == ' ':
+                print('Введите корректный вопрос')
+                continue
+            else:
+                return user_in            
 
 
 userResultStorage = UserResultStorage()
@@ -193,8 +236,14 @@ def start_game():
         user_input = valid_input(2)
 
         if user_input == 'да':
-            QuestionsStorage().add()      
+            add_qustion()      
 
+        print('Удалить вопросы?(Да\Нет)')
+        user_input = valid_input(2)
+
+        if user_input == 'да':
+            del_qustion()
+        
         print('Начать игру снова?(Да/Нет)')
         user_input = valid_input(2)
 
@@ -202,19 +251,19 @@ def start_game():
             continue
         elif user_input == 'нет':
             break
-        
+
 def pre_start():
     if FileProvider().exists('my-test-questions.txt'):
         quest = qustionsStorage.get_all()
         if len(quest) < 5:
             print(f'Для запуска приложения нужно добавить ещё {5 - len(quest)} вопрос')
-            qustionsStorage.add()
+            add_qustion()
             pre_start()
         else:
             start_game()
     else:
         print('Файл my-test-questions.txt не найден')
         print('Для запуска приложения нужно добавить вопросы.')
-        qustionsStorage.add()
-        
+        add_qustion()
+
 pre_start()

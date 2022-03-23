@@ -1,0 +1,134 @@
+import random
+import pygame
+import time
+
+class Ball:
+    def __init__(self, display):
+        self.display = display
+        self.color = pygame.Color('red')
+        self.center_x = 100
+        self.center_y = 100
+        self.radius = 30
+
+        self.vx = 2
+        self.vy = 2
+
+    def show(self):
+        pygame.draw.circle(self.display, self.color, (self.center_x, self.center_y), self.radius)
+        
+    def go(self):
+        self.center_x += self.vx
+        self.center_y += self.vy
+        
+    def clear(self):
+        pygame.draw.circle(self.display, pygame.Color('white'), (self.center_x, self.center_y), self.radius)
+        
+    def move(self):
+        if self.vx != 0 and self.vy != 0:
+            self.clear()
+            self.go()
+            self.show()
+        
+    def stop(self):
+        self.vx = 0
+        self.vy = 0
+        
+    def coord(self):
+        count = 0
+        if self.center_x < width - self.radius and not self.center_x < 30 and self.center_y < height - self.radius and not self.center_y < 30:
+            count = 1
+        return count
+
+class RandomPointBall(Ball):
+    def __init__(self, display):
+        super().__init__(display)
+
+        self.color = pygame.Color('green')
+
+        width, height = display.get_size()
+        self.center_x = random.randint(self.radius, width - self.radius)
+        self.center_y = random.randint(self.radius, height - self.radius)
+
+class PointBall(Ball):
+    def __init__(self, display, x, y):
+        super().__init__(display)
+        
+        self.color = pygame.Color('yellow')
+
+        self.center_x = x
+        self.center_y = y
+
+class RandomPointMoovableBall(RandomPointBall):
+    def __init__(self, display):
+        super().__init__(display)
+
+        while True:
+            self.vx = random.randint(-3, 3)
+            self.vy = random.randint(-3, 3)
+            if self.vx != 0 and self.vy != 0:
+                break
+            else:
+                continue
+
+class PrintDisplay:
+    def __init__(self, display, text, color, x, y):
+        self.text = text
+        self.display = display
+        self.color = color
+        self.pycolor = pygame.Color(color)
+        self.x = x
+        self.y = y
+
+        
+    def printtx(self):
+        font = pygame.font.Font(None, 36)
+        text1 = font.render(self.text, True, self.pycolor)
+        self.display.blit(text1, (self.x, self.y))
+
+    def clear(self):
+        pygame.draw.rect(self.display, pygame.Color('white'),
+                 (0, 0, 300, 25))
+
+pygame.init()
+
+width = 700
+height = 400
+display = pygame.display.set_mode((width, height))
+
+display.fill(pygame.Color('white'))
+
+balls = []
+for i in range(10):
+    ball = RandomPointMoovableBall(display)
+    ball.show()
+    balls.append(ball)
+
+
+pygame.display.flip()
+
+time.sleep(2)
+
+count = 0
+
+clock = pygame.time.Clock()
+while True:
+    event_list = pygame.event.get()
+    for event in event_list:
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            for ball in balls:
+                if event.pos[0] + 20 > ball.center_x and event.pos[0] - 20 < ball.center_x and event.pos[1] + 20 > ball.center_y and event.pos[1] - 20 < ball.center_y:
+                    ball.stop()
+                    count += ball.coord()
+
+            count_text = PrintDisplay(display, f'Шариков на форме: {count}', 'red', 0, 0)
+            count_text.clear()
+            count_text.printtx()
+
+    for ball in balls:
+        ball.move()
+
+    pygame.display.flip()
+    clock.tick(30)

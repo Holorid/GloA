@@ -182,11 +182,11 @@ def valid_input(mode, value=0):
                 if user_in.isdigit() and int(user_in) <= 11 and int(user_in) != 0:
                     return user_in  
                 
-                if user_in[0].isdigit() and int(user_in[0]) <= 11 and int(user_in) != 0 and user_in[1] in 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ':
+                if user_in[0].isdigit() and int(user_in[0]) <= 11 and user_in[1].upper() in 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ' and int(user_in[0]) != 0:
                     return user_in 
                     
             if length == 3:
-                if user_in[0:2].isdigit() and int(user_in[0:2]) <= 11 and int(user_in) != 0 and user_in[2] in 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ':
+                if user_in[0:2].isdigit() and int(user_in[0:2]) <= 11 and user_in[2].upper() in 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ' and int(user_in[0:2]) != 0:
                     return user_in
             
             print('Введите корректную информацию')
@@ -201,12 +201,30 @@ def valid_input(mode, value=0):
                 return user_in
 
 def star():
-    print('Напишите название школы:')
-    school_name_input = valid_input(3)
-    print('Напишите адресс школы:')
-    school_address_input = valid_input(3)
     
-    school = schoolStorage.get_school(school_name_input, school_address_input)
+    all_school = schoolStorage.get_all_school()
+    print('Список школ:')
+    name = 'Название школы'
+    address = 'Адресс'
+    number = '№'
+    print(f'{number:10}{name:30}{address:20}')
+    length = len(all_school) + 1
+    for i in range(len(all_school)):
+        print(f'{str(i+1):10}{all_school[i].name:40}{all_school[i].address:20}')
+    
+    print(f'{str(length):10}Добавить новую школу')
+    print('Выберите номер меню:')
+    num_school = valid_input(1, length) - 1
+    
+    if num_school + 1 == length:
+        print('Напишите название школы:')
+        school_name_input = valid_input(3)
+        print('Напишите адресс школы:')
+        school_address_input = valid_input(3)
+        
+        school = schoolStorage.get_school(school_name_input, school_address_input)
+    else:
+        school = all_school[num_school]
     
     while True:
         print('---------------------------------')
